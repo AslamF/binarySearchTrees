@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        class Node{
+            constructor(value = null, leftNode = null, rightNode = null){
+                this.value = value;
+                this.leftNode = leftNode;
+                this.rightNode = rightNode;
+            }
+        }
+
+        class Tree{
+            constructor(array){
+                this.array = array;
+                this.root = this.buildTree(array)
+            }
+        
+            buildTree(array){
+          
+            let sortedArray = mergeSort(array);
+            sortedArray = removeDupes(sortedArray);
+
+            const solution = BST(sortedArray);
+            
+            
+            console.log(solution)
+            return solution
+            
+            }
+
+            insert(value, currentNode = this.root){
+               if (currentNode === null){
+                return new Node(value)
+               }
+               if(currentNode.value <  value){
+                    currentNode.rightNode = this.insert(value, currentNode.rightNode);
+               }
+               else if(currentNode.value > value){
+                    currentNode.leftNode = this.insert(value, currentNode.leftNode)
+               }
+               return currentNode;
+                
+                
+            }
+
+            delete(value, currentNode = this.root){
+                if (currentNode.value === value){
+                
+                }
+                if (currentNode.value < value) {
+                    currentNode.rightNode = this.delete(value, currentNode.rightNode)
+                }
+                else if(currentNode.value > value){
+                    currentNode.leftNode = this.delete(value, currentNode.leftNode);
+                }
+                return currentNode;
+
+            }
+
+            find(value, currentNode = this.root){
+                if (currentNode.value === value){
+                    console.log(currentNode)
+                    
+                }
+                if (currentNode.value < value) {
+                    currentNode.rightNode = this.find(value, currentNode.rightNode)
+                }
+                else if(currentNode.value > value){
+                    currentNode.leftNode = this.find(value, currentNode.leftNode);
+                }
+                return currentNode;
+            }
+
+            levelOrder(inputFunction){
+
+            }
+
+           
+}
+let array = [1,7,4,23,8,9,4,3,5,7,9,67,6345,324]
+const tree = new Tree(array)
+tree.insert(2)
+tree.find(4)
+
+console.log(tree.root.value)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const prettyPrint = (node, prefix = '', isLeft = true) => {
+                if (node.rightNode !== null) {
+                    prettyPrint(node.rightNode, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+                }
+                console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`);
+                if (node.leftNode !== null) {
+                    prettyPrint(node.leftNode, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+                }
+            }
+
+        prettyPrint(tree.root)
+            
+            
+        function BST(array){
+            if (array.length == 0){
+                return null
+            }
+            let middle = findMiddle(array);
+            let root = new Node(
+                array[middle],
+                BST(array.slice(0, middle)),
+                BST(array.slice(middle + 1, array.length))
+            )
+            return root;
+        }
+
+
+        function removeDupes(array){
+            let sortedArray = []
+            array.forEach(element => {
+                if(!sortedArray.includes(element)){
+                    sortedArray.push(element)
+                }
+            });
+            return sortedArray;
+        }
+
+        function findMiddle(array){
+            return middle = parseInt((array.length-1) / 2)     
+        }
+        // pulled mergesort function from previous code. 
+     function mergeSort(array){  ///// EX= [5, 2, 14, 1]
+                const half = Math.ceil(array.length / 2);
+                let arrayLength  =  array.length;
+                if (arrayLength === 1){
+                    return array
+                }
+                else {
+                    const firstHalf = array.slice(0, half);  // [5, 2]
+                    const secondHalf = array.slice(half); // [14, 1]
+                    
+                    let leftSorted = mergeSort(firstHalf); // [5] 
+                    let rightSorted = mergeSort(secondHalf); // [2]
+
+                    
+                    return merge(leftSorted, rightSorted);
+                    }
+                
+                    
+                }
+
+            function merge(leftSorted, rightSorted){
+                let emptyArray = [];
+
+                while( leftSorted.length && rightSorted.length){
+                    if (leftSorted[0] <= rightSorted[0]){
+                        emptyArray.push(leftSorted.shift())
+                    }
+                    else{
+                        emptyArray.push(rightSorted.shift())
+                    }
+                }
+                while (leftSorted.length){
+                    emptyArray.push(leftSorted.shift())
+                }
+                while(rightSorted.length){
+                    emptyArray.push(rightSorted.shift())
+                }
+                return emptyArray;
+
+            }
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+    
+</body>
+</html>
